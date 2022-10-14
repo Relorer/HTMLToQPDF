@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLToQPDF", "HTMLToQPDF\HTMLToQPDF.csproj", "{22118559-FF76-4BF7-973F-C4A277B9746B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLToQPDF.Example", "HTMLToQPDF.Example\HTMLToQPDF.Example.csproj", "{EADB2A0E-2D7C-47AB-8AC4-189700FA1EE2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22118559-FF76-4BF7-973F-C4A277B9746B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22118559-FF76-4BF7-973F-C4A277B9746B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22118559-FF76-4BF7-973F-C4A277B9746B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22118559-FF76-4BF7-973F-C4A277B9746B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EADB2A0E-2D7C-47AB-8AC4-189700FA1EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EADB2A0E-2D7C-47AB-8AC4-189700FA1EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EADB2A0E-2D7C-47AB-8AC4-189700FA1EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EADB2A0E-2D7C-47AB-8AC4-189700FA1EE2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {056F73DD-D9C7-4CC6-9D4F-415CF88A3935}
+	EndGlobalSection
+EndGlobal
