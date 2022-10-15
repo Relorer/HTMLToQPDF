@@ -18,16 +18,6 @@ namespace HTMLQuestPDF
             PDFPage.GetImgBySrc = getImg;
         }
 
-        public void SetMinImgWidth(float value, Unit unit = Unit.Point)
-        {
-            PDFPage.MinImgWidth = UnitUtils.ToPoints(value, unit);
-        }
-
-        public void SetMaxImgHeight(float value, Unit unit = Unit.Point)
-        {
-            PDFPage.MaxImgHeight = UnitUtils.ToPoints(value, unit);
-        }
-
         public void SetTextStyleForHtmlElement(string tagName, TextStyle style)
         {
             PDFPage.TextStyles[tagName.ToLower()] = style;

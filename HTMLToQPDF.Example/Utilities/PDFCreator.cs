@@ -2,7 +2,6 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using SkiaSharp;
 
 namespace HTMLToQPDF.Example.Utilities
 {
@@ -29,9 +28,9 @@ namespace HTMLToQPDF.Example.Utilities
                         {
                             handler.SetTextStyleForHtmlElement("h1", TextStyle.Default.FontColor(Colors.DeepOrange.Accent4).FontSize(32).Bold());
                             handler.SetContainerStyleForHtmlElement("div", c => c.Background(Colors.Teal.Lighten5));
+                            handler.SetContainerStyleForHtmlElement("img", c => c.MaxHeight(7, Unit.Centimetre));
                             handler.SetContainerStyleForHtmlElement("table", c => c.Background(Colors.Pink.Lighten5));
                             handler.SetListVerticalPadding(40);
-                            handler.SetMaxImgHeight(7, Unit.Centimetre);
                         }
                         handler.SetHtml(html);
                     });

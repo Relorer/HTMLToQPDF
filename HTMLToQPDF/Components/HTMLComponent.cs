@@ -14,8 +14,6 @@ namespace HTMLToQPDF.Components
 
     internal class HTMLComponent : IComponent
     {
-        public float MinImgWidth { get; set; } = 0;
-        public float MaxImgHeight { get; set; } = 0;
         public GetImgBySrc GetImgBySrc { get; set; } = ImgUtils.GetImgBySrc;
 
         public Dictionary<string, TextStyle> TextStyles { get; } = new Dictionary<string, TextStyle>()
@@ -54,7 +52,7 @@ namespace HTMLToQPDF.Components
 
             CreateSeparateBranchesForTextNodes(node);
 
-            container.Component(node.GetComponent(new HTMLComponentsArgs(TextStyles, ContainerStyles, ListVerticalPadding, GetImgBySrc, MaxImgHeight, MinImgWidth)));
+            container.Component(node.GetComponent(new HTMLComponentsArgs(TextStyles, ContainerStyles, ListVerticalPadding, GetImgBySrc)));
         }
 
         /// <summary>
