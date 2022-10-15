@@ -19,7 +19,7 @@ namespace HTMLQuestPDF.Components.Tags
         {
             var src = node.GetAttributeValue("src", "");
             var img = getImgBySrc(src) ?? Placeholders.Image(200, 100);
-            container.AlignCenter().Image(img, ImageScaling.FitArea);
+            container.Image(img, ImageScaling.FitArea);
         }
     }
 }
