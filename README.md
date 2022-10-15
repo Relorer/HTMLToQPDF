@@ -2,7 +2,43 @@ HTMLToQPDF is an extension for QuestPDF that allows to generate PDF from HTML
 
 [QuestPDF](https://github.com/QuestPDF/QuestPDF)  currently does not support inserting html into a pdf document. So I wrote a small library for this. It doesn't support the full functionality of html and css, but I think it should be enough for most cases.
 
-You can use [HTMLToQPDF.Example](https://github.com/Relorer/HTMLToQPDF/tree/master/HTMLToQPDF.Example) to try out the capabilities of this extension.
+The simplest example of use:
+```
+Document.Create(container =>
+{
+    container.Page(page =>
+    {
+        page.HTML(handler =>
+        {
+            handler.SetHtml(html);
+        });
+    });
+}).GeneratePdf(path);
+```
+**I strongly recommend overloading the image upload method, because the outdated WebClient is used by default without using asynchronous.**
+To do this, you can use the OverloadImgReceivingFunc:
+```
+page.HTML(handler =>
+{
+    handler.OverloadImgReceivingFunc(GetImgBySrc);
+    handler.SetHtml(html);
+});
+```
+
+You can customize the styles of text and containers for tags:
+```
+handler.SetTextStyleForHtmlElement("div", TextStyle.Default.FontColor(Colors.Grey.Medium));
+handler.SetTextStyleForHtmlElement("h1", TextStyle.Default.FontColor(Colors.DeepOrange.Accent4).FontSize(32).Bold());
+handler.SetContainerStyleForHtmlElement("table", c => c.Background(Colors.Pink.Lighten5));
+handler.SetContainerStyleForHtmlElement("ul", c => c.PaddingVertical(10));
+```
+
+You can set the vertical padding size for lists. This padding will not apply to sub-lists:
+```
+handler.SetListVerticalPadding(40);
+```
+
+You can use [HTMLToQPDF.Example](https://github.com/Relorer/HTMLToQPDF/releases/tag/1.0.0) to try out the capabilities of this extension.
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/26045342/195960914-1aef2f7e-f5bb-4c4b-bbe9-cd4770a0527f.png" />
