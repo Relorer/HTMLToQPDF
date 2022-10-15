@@ -2,6 +2,14 @@ HTMLToQPDF is an extension for QuestPDF that allows to generate PDF from HTML
 
 [QuestPDF](https://github.com/QuestPDF/QuestPDF)  currently does not support inserting html into a pdf document. So I wrote a small library for this. It doesn't support the full functionality of html and css, but I think it should be enough for most cases.
 
+
+
+#### Dependencies
+- [QuestPDF](https://github.com/QuestPDF/QuestPDF)
+- [HtmlAgilityPack](https://html-agility-pack.net/) is used for html parsing
+
+#### Usage
+
 The simplest example of use:
 ```
 Document.Create(container =>
