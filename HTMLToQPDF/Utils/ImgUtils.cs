@@ -8,6 +8,11 @@ namespace HTMLToQPDF.Utils
         {
             try
             {
+                if (src.Contains("base64"))
+                {
+                    var base64 = src.Substring(src.IndexOf("base64,") + "base64,".Length);
+                    return Convert.FromBase64String(base64);
+                }
                 var webClient = new WebClient();
                 return webClient.DownloadData(src);
             }
