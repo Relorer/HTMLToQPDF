@@ -2,6 +2,29 @@ HTMLToQPDF is an extension for QuestPDF that allows to generate PDF from HTML
 
 [QuestPDF](https://github.com/QuestPDF/QuestPDF)  currently does not support inserting html into a pdf document. So I wrote a small library for this. It doesn't support the full functionality of html and css, but I think it should be enough for most cases.
 
+The simplest example of use:
+```
+Document.Create(container =>
+{
+    container.Page(page =>
+    {
+        page.HTML(handler =>
+        {
+            handler.SetHtml(html);
+        });
+    });
+}).GeneratePdf(path);
+```
+**I strongly recommend overloading the image upload method, because the outdated WebClient is used by default without using asynchronous.**
+To do this, you can use the OverloadImgReceivingFunc:
+```
+page.HTML(handler =>
+{
+    handler.OverloadImgReceivingFunc(GetImgBySrc);
+    handler.SetHtml(html);
+});
+```
+
 You can use [HTMLToQPDF.Example](https://github.com/Relorer/HTMLToQPDF/releases/tag/1.0.0) to try out the capabilities of this extension.
 
 <p align="center">
