@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\web-programming.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
