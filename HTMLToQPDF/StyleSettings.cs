@@ -23,6 +23,7 @@ namespace HTMLQuestPDF
             "thead",
             "tr",
             "u",
+            "img",
             "text"
         };
 
@@ -35,12 +36,16 @@ namespace HTMLQuestPDF
             "h4",
             "h5",
             "h6",
-            "img",
             "li",
             "ol",
             "p",
             "table",
             "ul",
+            "section",
+            "header",
+            "footer",
+            "head",
+            "html"
         };
 
         public static IComponent GetComponent(this HtmlNode node, HTMLComponentsArgs args)

@@ -48,7 +48,7 @@ namespace HTMLToQPDF.Components
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(HTMLUtils.PrepareHTML(HTML));
-            var node = doc.DocumentNode.SelectSingleNode("//body") ?? doc.DocumentNode;
+            var node = doc.DocumentNode;
 
             CreateSeparateBranchesForTextNodes(node);
 

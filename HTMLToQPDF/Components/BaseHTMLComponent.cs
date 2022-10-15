@@ -19,7 +19,7 @@ namespace HTMLQuestPDF.Components
 
         public void Compose(IContainer container)
         {
-            if (!node.HasContent()) return;
+            if (!node.HasContent() || node.Name.ToLower() == "head") return;
 
             container = ApplyStyles(container);
 
