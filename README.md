@@ -25,6 +25,19 @@ page.HTML(handler =>
 });
 ```
 
+You can customize the styles of text and containers for tags:
+```
+handler.SetTextStyleForHtmlElement("div", TextStyle.Default.FontColor(Colors.Grey.Medium));
+handler.SetTextStyleForHtmlElement("h1", TextStyle.Default.FontColor(Colors.DeepOrange.Accent4).FontSize(32).Bold());
+handler.SetContainerStyleForHtmlElement("table", c => c.Background(Colors.Pink.Lighten5));
+handler.SetContainerStyleForHtmlElement("ul", c => c.PaddingVertical(10));
+```
+
+You can set the vertical padding size for lists. This padding will not apply to sub-lists:
+```
+handler.SetListVerticalPadding(40);
+```
+
 You can use [HTMLToQPDF.Example](https://github.com/Relorer/HTMLToQPDF/releases/tag/1.0.0) to try out the capabilities of this extension.
 
 <p align="center">
