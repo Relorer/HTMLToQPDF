@@ -16,17 +16,20 @@ Document.Create(container =>
 {
     container.Page(page =>
     {
-        page.HTML(handler =>
-        {
-            handler.SetHtml(html);
-        });
+        page.Content().Column(col =>
+            {
+                col.Item().HTML(handler =>
+                {
+                    handler.SetHtml(html);
+                });
+            });
     });
 }).GeneratePdf(path);
 ```
 **I strongly recommend overloading the image upload method, because the outdated WebClient is used by default without using asynchronous.**
 To do this, you can use the OverloadImgReceivingFunc:
 ```
-page.HTML(handler =>
+col.Item().HTML(handler =>
 {
     handler.OverloadImgReceivingFunc(GetImgBySrc);
     handler.SetHtml(html);
