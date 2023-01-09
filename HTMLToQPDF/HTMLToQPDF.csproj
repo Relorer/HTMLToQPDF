@@ -4,17 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Title>HTMLToQPDF</Title>
+    <Title>Relorer.QuestPDF.HTML</Title>
     <Company></Company>
     <Authors>Relorer</Authors>
-    <Description>HTMLToQPDF is an extension for QuestPDF that allows to generate PDF from HTML</Description>
+    <Description>Relorer.QuestPDF.HTML is an extension for QuestPDF that allows to generate PDF from HTML</Description>
     <PackageProjectUrl>https://github.com/Relorer/HTMLToQPDF</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/Relorer/HTMLToQPDF</RepositoryUrl>
     <PackageTags>pdf, file, export, generate, generation, tool, create, creation, render, document, format, quest, html, library, converter, open, source, free, standard, core</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
