@@ -8,7 +8,7 @@ namespace HTMLQuestPDF
 {
     internal static class HTMLMapSettings
     {
-        public static readonly string[] LineElements = new string[] {
+        public static readonly string[] LineElements = {
             "a",
             "b",
             "br",
@@ -24,7 +24,8 @@ namespace HTMLQuestPDF
             "tr",
             "u",
             "img",
-            "text"
+            "text",
+            "span"
         };
 
         public static readonly string[] BlockElements = new string[] {

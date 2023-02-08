@@ -9,12 +9,14 @@ namespace HTMLQuestPDF.Components
     internal class ParagraphComponent : IComponent
     {
         private readonly List<HtmlNode> lineNodes;
-        private readonly Dictionary<string, TextStyle> textStyles;
+        private readonly Dictionary<string, Func<TextStyle, TextStyle>> textStyles;
+        private readonly Dictionary<string, Func<TextStyle, TextStyle>> cssStyles;
 
         public ParagraphComponent(List<HtmlNode> lineNodes, HTMLComponentsArgs args)
         {
             this.lineNodes = lineNodes;
             this.textStyles = args.TextStyles;
+            this.cssStyles = args.CssStyles;
         }
 
         private HtmlNode? GetParrentBlock(HtmlNode node)
@@ -109,7 +111,11 @@ namespace HTMLQuestPDF.Components
 
         public TextStyle GetTextStyle(HtmlNode element)
         {
-            return textStyles.TryGetValue(element.Name.ToLower(), out TextStyle? style) ? style : TextStyle.Default;
+            var style = TextStyle.Default;
+            foreach (var cssName in element.GetClasses())
+                if (cssStyles.TryGetValue(cssName, out var cssStyle))
+                    style = cssStyle(style);
+            return textStyles.TryGetValue(element.Name.ToLower(), out var textStyle) ? textStyle(style) : style;
         }
     }
 }
