@@ -18,9 +18,14 @@ namespace HTMLQuestPDF
             PDFPage.GetImgBySrc = getImg;
         }
 
-        public void SetTextStyleForHtmlElement(string tagName, TextStyle style)
+        public void SetTextStyleForHtmlElement(string tagName, Func<TextStyle, TextStyle> style)
         {
             PDFPage.TextStyles[tagName.ToLower()] = style;
+        }
+
+        public void SetCssStyleForHtmlElement(string cssName, Func<TextStyle, TextStyle> style)
+        {
+            PDFPage.CssStyles[cssName.ToLower()] = style;
         }
 
         public void SetContainerStyleForHtmlElement(string tagName, Func<IContainer, IContainer> style)

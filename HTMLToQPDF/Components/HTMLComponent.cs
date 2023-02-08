@@ -16,24 +16,26 @@ namespace HTMLToQPDF.Components
     {
         public GetImgBySrc GetImgBySrc { get; set; } = ImgUtils.GetImgBySrc;
 
-        public Dictionary<string, TextStyle> TextStyles { get; } = new Dictionary<string, TextStyle>()
+        public Dictionary<string, Func<TextStyle, TextStyle>> TextStyles { get; } = new()
         {
-            { "h1", TextStyle.Default.FontSize(32).Bold() },
-            { "h2", TextStyle.Default.FontSize(28).Bold() },
-            { "h3", TextStyle.Default.FontSize(24).Bold() },
-            { "h4", TextStyle.Default.FontSize(20).Bold() },
-            { "h5", TextStyle.Default.FontSize(16).Bold() },
-            { "h6", TextStyle.Default.FontSize(12).Bold() },
-            { "b", TextStyle.Default.Bold() },
-            { "i", TextStyle.Default.Italic() },
-            { "small", TextStyle.Default.Light() },
-            { "strike", TextStyle.Default.Strikethrough() },
-            { "s", TextStyle.Default.Strikethrough() },
-            { "u", TextStyle.Default.Underline() },
-            { "a", TextStyle.Default.Underline() },
+            { "h1", t => t.FontSize(32).Bold() },
+            { "h2", t => t.FontSize(28).Bold() },
+            { "h3", t => t.FontSize(24).Bold() },
+            { "h4", t => t.FontSize(20).Bold() },
+            { "h5", t => t.FontSize(16).Bold() },
+            { "h6", t => t.FontSize(12).Bold() },
+            { "b", t => t.Bold() },
+            { "i", t => t.Italic() },
+            { "small", t => t.Light() },
+            { "strike", t => t.Strikethrough() },
+            { "s", t => t.Strikethrough() },
+            { "u", t => t.Underline() },
+            { "a", t => t.Underline() },
         };
 
-        public Dictionary<string, Func<IContainer, IContainer>> ContainerStyles { get; } = new Dictionary<string, Func<IContainer, IContainer>>()
+        public Dictionary<string, Func<TextStyle, TextStyle>> CssStyles { get; } = new();
+
+        public Dictionary<string, Func<IContainer, IContainer>> ContainerStyles { get; } = new()
         {
             { "p", c => c.PaddingVertical(6) },
             { "ul", c => c.PaddingLeft(30) },
@@ -52,7 +54,8 @@ namespace HTMLToQPDF.Components
 
             CreateSeparateBranchesForTextNodes(node);
 
-            container.Component(node.GetComponent(new HTMLComponentsArgs(TextStyles, ContainerStyles, ListVerticalPadding, GetImgBySrc)));
+            var args = new HTMLComponentsArgs(TextStyles, CssStyles, ContainerStyles, ListVerticalPadding, GetImgBySrc);
+            container.Component(node.GetComponent(args));
         }
 
         /// <summary>
