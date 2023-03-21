@@ -12,11 +12,16 @@ namespace HTMLQuestPDF
             "a",
             "b",
             "br",
+            "del",
+            "em",
             "i",
             "s",
             "small",
             "space",
             "strike",
+            "strong",
+            "sub",
+            "sup",
             "tbody",
             "td",
             "th",
@@ -52,7 +57,7 @@ namespace HTMLQuestPDF
         {
             return node.Name.ToLower() switch
             {
-                "#text" or "h1" or "h2" or "h3" or "h4" or "h5" or "h6" or "b" or "s" or "strike" or "i" or "small" or "u"
+                "#text" or "h1" or "h2" or "h3" or "h4" or "h5" or "h6" or "b" or "s" or "strike" or "i" or "small" or "u" or "del" or "em" or "strong" or "sub" or "sup"
                     => new ParagraphComponent(new List<HtmlNode>() { node }, args),
                 "br" => new BrComponent(node, args),
                 "a" => new AComponent(node, args),
