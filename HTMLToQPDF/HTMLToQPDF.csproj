@@ -4,17 +4,18 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Title>Relorer.QuestPDF.HTML</Title>
-    <Company></Company>
-    <Authors>Relorer</Authors>
-    <Description>Relorer.QuestPDF.HTML is an extension for QuestPDF that allows to generate PDF from HTML</Description>
-    <PackageProjectUrl>https://github.com/Relorer/HTMLToQPDF</PackageProjectUrl>
+    <Title>Earlybyte.QuestPDF.HTML</Title>
+    <Company>Earlybyte GmbH</Company>
+    <Authors>Earlybyte</Authors>
+    <Description>Earlybyte.QuestPDF.HTML is an extension for QuestPDF that allows to generate PDF from HTML</Description>
+    <PackageProjectUrl>https://github.com/Earlybyte/HTMLToQPDF</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/Relorer/HTMLToQPDF</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Earlybyte/HTMLToQPDF</RepositoryUrl>
     <PackageTags>pdf, file, export, generate, generation, tool, create, creation, render, document, format, quest, html, library, converter, open, source, free, standard, core</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
+    <PackageId>Earlybyte.QuestPDF.HTML</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
