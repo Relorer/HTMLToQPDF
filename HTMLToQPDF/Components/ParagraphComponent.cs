@@ -49,9 +49,6 @@ namespace HTMLQuestPDF.Components
             var first = lineNodes.First();
             var last = lineNodes.First();
 
-            first.InnerHtml = first.InnerHtml.TrimStart();
-            last.InnerHtml = last.InnerHtml.TrimEnd();
-
             container.Text(GetAction(lineNodes));
         }
 
