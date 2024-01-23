@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
-	  <PackageReference Include="QuestPDF" Version="2023.6.0" />
+	  <PackageReference Include="QuestPDF" Version="2023.12.4" />
   </ItemGroup>
 
   <ItemGroup>
