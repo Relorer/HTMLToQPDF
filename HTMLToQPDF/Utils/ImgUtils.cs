@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace HTMLToQPDF.Utils
+﻿namespace HTMLToQPDF.Utils
 {
     internal static class ImgUtils
     {
@@ -13,8 +11,9 @@ namespace HTMLToQPDF.Utils
                     var base64 = src.Substring(src.IndexOf("base64,") + "base64,".Length);
                     return Convert.FromBase64String(base64);
                 }
-                var webClient = new WebClient();
-                return webClient.DownloadData(src);
+                var webClient = new HttpClient();
+                var response = webClient.GetAsync(src).Result;
+                return response.Content.ReadAsByteArrayAsync().Result;
             }
             catch
             {

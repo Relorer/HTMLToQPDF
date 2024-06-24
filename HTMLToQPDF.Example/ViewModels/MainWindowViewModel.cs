@@ -3,6 +3,7 @@ using DevExpress.Mvvm.CodeGenerators;
 using HTMLToQPDF.Example.DialogWindows;
 using HTMLToQPDF.Example.Properties;
 using HTMLToQPDF.Example.Utilities;
+using QuestPDF.Infrastructure;
 using System;
 using System.IO;
 
@@ -17,6 +18,7 @@ namespace HTMLToQPDF.Example.ViewModels
 
         public MainWindowViewModel()
         {
+            QuestPDF.Settings.License = LicenseType.Community;
             HTML = Resources.testHtml;
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             SavePath = Path.Combine(desktop, "example.pdf");
