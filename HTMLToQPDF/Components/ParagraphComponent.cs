@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using HTMLQuestPDF.Extensions;
 using HTMLToQPDF.Components;
+using HTMLToQPDF.Utils;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
@@ -109,7 +110,63 @@ namespace HTMLQuestPDF.Components
 
         public TextStyle GetTextStyle(HtmlNode element)
         {
-            return textStyles.TryGetValue(element.Name.ToLower(), out TextStyle? style) ? style : TextStyle.Default;
+            var s = textStyles.TryGetValue(element.Name.ToLower(), out TextStyle? style) ? style : TextStyle.Default;
+            if (element.HasAttributes)
+            {
+                s = GetTextAttribute(element, s);
+            }
+            return s;
+        }
+
+        private TextStyle GetTextAttribute(HtmlNode element, TextStyle style)
+        {
+            foreach (var attr in element.Attributes)
+            {
+                if(attr.Name == "style")
+                {
+                    style = ParseStyleString(attr.Value, style);
+                }
+            }
+            return style;
+        }
+
+        private TextStyle ParseStyleString(string styleString, TextStyle textStyle)
+        {
+            List<string> styles = new List<string>(styleString.Split(';'));
+            foreach (var s in styles)
+            {
+                var split = s.Split(':');
+                if (split.Length == 2)
+                {
+                    var styleType = split[0].Trim();
+                    var styleValue = split[1].Trim();
+
+                    switch (styleType)
+                    {
+                        case "background-color":
+                            string hexColor = ColorUtils.ColorToHex(styleValue);
+                            if (hexColor != string.Empty)
+                            {
+                                textStyle = textStyle.BackgroundColor(hexColor);
+                            }
+                            break;
+                        case "font-family":
+                            string font = FontFamilyUtils.formatFontFamily(styleValue);
+                            textStyle = textStyle.FontFamily(font); 
+                            break;
+                        case "color":
+                            hexColor = ColorUtils.ColorToHex(styleValue);
+                            if (hexColor != string.Empty)
+                            {
+                                textStyle = textStyle.FontColor(hexColor);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return textStyle;
         }
     }
 }
