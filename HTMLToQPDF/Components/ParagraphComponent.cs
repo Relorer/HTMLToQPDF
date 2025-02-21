@@ -1,4 +1,4 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using HTMLQuestPDF.Extensions;
 using HTMLToQPDF.Components;
 using QuestPDF.Fluent;
@@ -17,10 +17,10 @@ namespace HTMLQuestPDF.Components
             this.textStyles = args.TextStyles;
         }
 
-        private HtmlNode? GetParrentBlock(HtmlNode node)
+        private HtmlNode? GetParentBlock(HtmlNode node)
         {
             if (node == null) return null;
-            return node.IsBlockNode() ? node : GetParrentBlock(node.ParentNode);
+            return node.IsBlockNode() ? node : GetParentBlock(node.ParentNode);
         }
 
         private HtmlNode? GetListItemNode(HtmlNode node)
@@ -31,7 +31,7 @@ namespace HTMLQuestPDF.Components
 
         public void Compose(IContainer container)
         {
-            var listItemNode = GetListItemNode(lineNodes.First()) ?? GetParrentBlock(lineNodes.First());
+            var listItemNode = GetListItemNode(lineNodes.First()) ?? GetParentBlock(lineNodes.First());
             if (listItemNode == null) return;
 
             var numberInList = listItemNode.GetNumberInList();
@@ -96,8 +96,8 @@ namespace HTMLQuestPDF.Components
                 action(spanAction);
                 if (node.ParentNode != null)
                 {
-                    var parrentAction = GetTextSpanAction(node.ParentNode);
-                    parrentAction(spanAction);
+                    var parentAction = GetTextSpanAction(node.ParentNode);
+                    parentAction(spanAction);
                 }
             };
         }
