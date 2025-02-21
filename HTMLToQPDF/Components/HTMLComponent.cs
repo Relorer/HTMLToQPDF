@@ -46,6 +46,11 @@ namespace HTMLToQPDF.Components
             { "ol", c => c.PaddingLeft(30) }
         };
 
+        public Dictionary<string, TextHorizontalAlignment> TextAlignments { get; } = new Dictionary<string, TextHorizontalAlignment>()
+        {
+            { "p", TextHorizontalAlignment.Left }
+        };
+
         public float ListVerticalPadding { get; set; } = 12;
 
         public string HTML { get; set; } = "";
@@ -58,7 +63,7 @@ namespace HTMLToQPDF.Components
 
             CreateSeparateBranchesForTextNodes(node);
 
-            container.Component(node.GetComponent(new HTMLComponentsArgs(TextStyles, ContainerStyles, ListVerticalPadding, GetImgBySrc)));
+            container.Component(node.GetComponent(new HTMLComponentsArgs(TextStyles, ContainerStyles, TextAlignments, ListVerticalPadding, GetImgBySrc)));
         }
 
         /// <summary>

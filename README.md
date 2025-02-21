@@ -42,6 +42,7 @@ handler.SetTextStyleForHtmlElement("div", TextStyle.Default.FontColor(Colors.Gre
 handler.SetTextStyleForHtmlElement("h1", TextStyle.Default.FontColor(Colors.DeepOrange.Accent4).FontSize(32).Bold());
 handler.SetContainerStyleForHtmlElement("table", c => c.Background(Colors.Pink.Lighten5));
 handler.SetContainerStyleForHtmlElement("ul", c => c.PaddingVertical(10));
+handler.SetTextAlignmentForHtmlElement("p", TextHorizontalAlignment.Justify);
 ```
 
 You can set the vertical padding size for lists. This padding will not apply to sub-lists:
