@@ -23,6 +23,11 @@ namespace HTMLQuestPDF
             PDFPage.TextStyles[tagName.ToLower()] = style;
         }
 
+        public void SetTextAlignmentForHtmlElement(string tagName, TextHorizontalAlignment alignment)
+        {
+            PDFPage.TextAlignments[tagName.ToLower()] = alignment;
+        }
+
         public void SetContainerStyleForHtmlElement(string tagName, Func<IContainer, IContainer> style)
         {
             PDFPage.ContainerStyles[tagName.ToLower()] = style;

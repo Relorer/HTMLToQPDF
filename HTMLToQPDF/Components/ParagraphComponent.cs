@@ -1,4 +1,4 @@
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using HTMLQuestPDF.Extensions;
 using HTMLToQPDF.Components;
 using QuestPDF.Fluent;
@@ -10,11 +10,13 @@ namespace HTMLQuestPDF.Components
     {
         private readonly List<HtmlNode> lineNodes;
         private readonly Dictionary<string, TextStyle> textStyles;
+        private readonly Dictionary<string, TextHorizontalAlignment> textAlignments;
 
         public ParagraphComponent(List<HtmlNode> lineNodes, HTMLComponentsArgs args)
         {
             this.lineNodes = lineNodes;
             this.textStyles = args.TextStyles;
+            this.textAlignments = args.TextAlignments;
         }
 
         private HtmlNode? GetParentBlock(HtmlNode node)
@@ -70,12 +72,12 @@ namespace HTMLQuestPDF.Components
                 if (node.NodeType == HtmlNodeType.Text)
                 {
                     var span = text.Span(node.InnerText);
-                    GetTextSpanAction(node).Invoke(span);
+                    GetTextSpanAction(node).Invoke(span, text);
                 }
                 else if (node.IsBr())
                 {
                     var span = text.Span("\n");
-                    GetTextSpanAction(node).Invoke(span);
+                    GetTextSpanAction(node).Invoke(span, text);
                 }
                 else
                 {
@@ -88,16 +90,23 @@ namespace HTMLQuestPDF.Components
             };
         }
 
-        private TextSpanAction GetTextSpanAction(HtmlNode node)
+        private Action<TextSpanDescriptor, TextDescriptor> GetTextSpanAction(HtmlNode node)
         {
-            return spanAction =>
+            return (spanAction, text) =>
             {
                 var action = GetTextStyles(node);
                 action(spanAction);
+
+                var alignment = GetTextAlignment(node);
+                alignment(text);
+
                 if (node.ParentNode != null)
                 {
                     var parentAction = GetTextSpanAction(node.ParentNode);
-                    parentAction(spanAction);
+                    parentAction(spanAction, text);
+
+                    var parentAlignment = GetTextAlignment(node.ParentNode);
+                    parentAlignment(text);
                 }
             };
         }
@@ -110,6 +119,27 @@ namespace HTMLQuestPDF.Components
         public TextStyle GetTextStyle(HtmlNode element)
         {
             return textStyles.TryGetValue(element.Name.ToLower(), out TextStyle? style) ? style : TextStyle.Default;
+        }
+
+        public Action<TextDescriptor> GetTextAlignment(HtmlNode element)
+        {
+            switch (textAlignments.TryGetValue(element.Name.ToLower(), out TextHorizontalAlignment alignment) ? alignment : TextHorizontalAlignment.Left)
+            {
+                case TextHorizontalAlignment.Left:
+                    return block => block.AlignLeft();
+                case TextHorizontalAlignment.Center:
+                    return block => block.AlignCenter();
+                case TextHorizontalAlignment.Right:
+                    return block => block.AlignRight();
+                case TextHorizontalAlignment.Start:
+                    return block => block.AlignStart();
+                case TextHorizontalAlignment.End:
+                    return block => block.AlignEnd();
+                case TextHorizontalAlignment.Justify:
+                    return block => block.Justify();
+                default:
+                    return block => block.AlignLeft();
+            }
         }
     }
 }
