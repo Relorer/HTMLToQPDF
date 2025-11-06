@@ -24,7 +24,7 @@
     </PackageReference>
     <PackageReference Include="HandyControls" Version="3.4.2" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.0.4" />
-    <PackageReference Include="QuestPDF" Version="2023.12.5" />
+    <PackageReference Include="QuestPDF" Version="2025.7.4" />
   </ItemGroup>
 
   <ItemGroup>
