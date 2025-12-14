@@ -18,7 +18,7 @@ namespace HTMLToQPDF.Utils
                     Unit.Feet => 864f,
                     Unit.Inch => 72f,
                     Unit.Mil => 0.072f,
-                    _ => throw new ArgumentOutOfRangeException("unit", unit, null),
+                    _ => throw new ArgumentOutOfRangeException(nameof(unit), unit, null),
                 };
             }
         }

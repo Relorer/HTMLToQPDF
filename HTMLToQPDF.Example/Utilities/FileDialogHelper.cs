@@ -1,16 +1,18 @@
 ﻿using Microsoft.Win32;
 
-namespace HTMLToQPDF.Example.DialogWindows
+namespace HTMLToQPDF.Example.Utilities
 {
     internal static class FileDialogHelper
     {
         public static string GetSaveFilePath(string file)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "PDF file|*.pdf",
+                Title = "Save an PDF File",
+                FileName = file
+            };
 
-            saveFileDialog.Filter = "PDF file|*.pdf";
-            saveFileDialog.Title = $"Save an PDF File";
-            saveFileDialog.FileName = file;
             saveFileDialog.ShowDialog();
 
             if (saveFileDialog.FileName != "")

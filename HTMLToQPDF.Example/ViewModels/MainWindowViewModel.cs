@@ -1,6 +1,5 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.CodeGenerators;
-using HTMLToQPDF.Example.DialogWindows;
 using HTMLToQPDF.Example.Properties;
 using HTMLToQPDF.Example.Utilities;
 using System;
@@ -11,14 +10,14 @@ namespace HTMLToQPDF.Example.ViewModels
     [GenerateViewModel]
     public partial class MainWindowViewModel : ViewModelBase
     {
-        public string HTML { get; set; }
+        public string Html { get; set; }
         public string SavePath { get; set; }
         public bool CustomStyles { get; set; }
 
         public MainWindowViewModel()
         {
-            HTML = Resources.testHtml;
-            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            Html = Resources.testHtml;
+            var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             SavePath = Path.Combine(desktop, "example.pdf");
         }
 
@@ -29,11 +28,11 @@ namespace HTMLToQPDF.Example.ViewModels
         }
 
         [GenerateCommand]
-        private void CreatePDF()
+        private void CreatePdf()
         {
-            PDFCreator.Create(HTML, SavePath, CustomStyles);
+            PdfCreator.Create(Html, SavePath, CustomStyles);
         }
 
-        private bool CanCreatePDF() => !string.IsNullOrEmpty(HTML);
+        private bool CanCreatePdf() => !string.IsNullOrEmpty(Html);
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System.Text.RegularExpressions;
 using System.Web;
 
-namespace HTMLQuestPDF.Utils
+namespace HTMLToQPDF.Utils
 {
-    internal static class HTMLUtils
+    internal static partial class HtmlUtils
     {
-        private static readonly string spaceAfterLineElementPattern = @$"\S<\/({string.Join("|", HTMLMapSettings.LineElements)})> ";
+        private static readonly string SpaceAfterLineElementPattern = @$"\S<\/({string.Join("|", HtmlMapSettings.LineElements)})> ";
 
-        public static string PrepareHTML(string value)
+        public static string PrepareHtml(string value)
         {
             var result = HttpUtility.HtmlDecode(value);
             result = RemoveExtraSpacesAndBreaks(result);
@@ -19,22 +19,29 @@ namespace HTMLQuestPDF.Utils
 
         private static string RemoveExtraSpacesAndBreaks(string html)
         {
-            return Regex.Replace(html, @"[ \r\n]+", " ");
+            return RemoveExtraSpacesAndBreaksRegex().Replace(html, " ");
         }
 
         private static string RemoveSpacesBetweenElements(string html)
         {
-            return Regex.Replace(html, @">\s+<", _ => @"><").Replace("<space></space>", "<space> </space>");
+            return RemoveSpacesBetweenElementsRegex().Replace(html, _ => "><").Replace("<space></space>", "<space> </space>");
         }
 
         private static string RemoveSpacesAroundBr(string html)
         {
-            return Regex.Replace(html, @"\s+<\/?br\s*\/?>\s+", _ => @$"<br>");
+            return RemoveSpacesAroundBrRegex().Replace(html, _ => "<br>");
         }
 
         private static string WrapSpacesAfterLineElement(string html)
         {
-            return Regex.Replace(html, spaceAfterLineElementPattern, m => $"{m.Value.Substring(0, m.Value.Length - 1)}<space> </space>");
+            return Regex.Replace(html, SpaceAfterLineElementPattern, m => $"{m.Value[..^1]}<space> </space>");
         }
+
+        [GeneratedRegex(@"[ \r\n]+")]
+        private static partial Regex RemoveExtraSpacesAndBreaksRegex();
+        [GeneratedRegex(@">\s+<")]
+        private static partial Regex RemoveSpacesBetweenElementsRegex();
+        [GeneratedRegex(@"\s+<\/?br\s*\/?>\s+")]
+        private static partial Regex RemoveSpacesAroundBrRegex();
     }
 }

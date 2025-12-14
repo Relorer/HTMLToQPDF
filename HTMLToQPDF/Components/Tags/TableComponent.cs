@@ -1,33 +1,32 @@
 ﻿using HtmlAgilityPack;
-using HTMLQuestPDF.Extensions;
-using HTMLToQPDF.Components;
+using HTMLToQPDF.Extensions;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
-namespace HTMLQuestPDF.Components.Tags
+namespace HTMLToQPDF.Components.Tags
 {
-    internal class TableComponent : BaseHTMLComponent
+    internal class TableComponent : BaseHtmlComponent
     {
         private delegate (uint, uint) GetPositionDelegate(int rowIndex, uint colSpan, uint rowSpan);
 
-        public TableComponent(HtmlNode node, HTMLComponentsArgs args) : base(node, args)
+        public TableComponent(HtmlNode node, HtmlComponentsArgs args) : base(node, args)
         {
         }
 
         private HtmlNodeCollection GetCellNodes()
         {
-            node.Id = String.IsNullOrEmpty(node.Id) ? Guid.NewGuid().ToString() : node.Id;
-            return node.SelectNodes($"(//table[@id=\"{node.Id}\"]//th | //table[@id=\"{node.Id}\"]//td)");
+            Node.Id = string.IsNullOrEmpty(Node.Id) ? Guid.NewGuid().ToString() : Node.Id;
+            return Node.SelectNodes($"(//table[@id=\"{Node.Id}\"]//th | //table[@id=\"{Node.Id}\"]//td)");
         }
 
         private List<List<HtmlNode>> GetTableLines()
         {
             var tableItems = GetCellNodes();
 
-            List<List<HtmlNode>> lines = new List<List<HtmlNode>>();
+            var lines = new List<List<HtmlNode>>();
 
-            List<HtmlNode> lastLine = new List<HtmlNode>();
-            HtmlNode? lastTr = GetTr(tableItems.First());
+            var lastLine = new List<HtmlNode>();
+            var lastTr = GetTr(tableItems.First());
 
             foreach (var item in tableItems)
             {
@@ -35,7 +34,7 @@ namespace HTMLQuestPDF.Components.Tags
                 if (lastTr != currentTr)
                 {
                     lines.Add(lastLine);
-                    lastLine = new List<HtmlNode>();
+                    lastLine = [];
                     lastTr = currentTr;
                 }
                 lastLine.Add(item);
@@ -56,7 +55,7 @@ namespace HTMLQuestPDF.Components.Tags
 
                     table.ColumnsDefinition(columns =>
                     {
-                        for (int i = 0; i < maxColumns; i++)
+                        for (var i = 0; i < maxColumns; i++)
                         {
                             columns.RelativeColumn();
                         }
@@ -68,10 +67,10 @@ namespace HTMLQuestPDF.Components.Tags
                     {
                         foreach (var cell in line)
                         {
-                            uint colSpan = (uint)cell.GetAttributeValue("colspan", 1);
-                            uint rowSpan = (uint)cell.GetAttributeValue("rowspan", 1);
+                            var colSpan = (uint)cell.GetAttributeValue("colspan", 1);
+                            var rowSpan = (uint)cell.GetAttributeValue("rowspan", 1);
 
-                            (uint col, uint row) = getNextPosition(lines.IndexOf(line), colSpan, rowSpan);
+                            var (col, row) = getNextPosition(lines.IndexOf(line), colSpan, rowSpan);
 
                             table.Cell()
                             .ColumnSpan(colSpan)
@@ -80,7 +79,7 @@ namespace HTMLQuestPDF.Components.Tags
                             .RowSpan(rowSpan)
                             .Border(1)
                             .Padding(5)
-                            .Component(cell.GetComponent(args));
+                            .Component(cell.GetComponent(Args));
                         }
                     }
                 });
@@ -89,10 +88,10 @@ namespace HTMLQuestPDF.Components.Tags
         private GetPositionDelegate GetFuncGettingNextPosition(int maxColumns)
         {
             var rows = new List<bool[]>();
-            return (int rowIndex, uint colSpan, uint rowSpan) =>
+            return (rowIndex, colSpan, rowSpan) =>
             {
                 uint col = 0;
-                uint row = (uint)rowIndex;
+                var row = (uint)rowIndex;
 
                 if (rows.Count <= rowIndex) rows.Add(new bool[maxColumns]);
 
@@ -101,9 +100,9 @@ namespace HTMLQuestPDF.Components.Tags
                     col++;
                 }
 
-                for (int j = 0; j < rowSpan; j++)
+                for (var j = 0; j < rowSpan; j++)
                 {
-                    for (int i = 0; i < colSpan; i++)
+                    for (var i = 0; i < colSpan; i++)
                     {
                         if (rows.Count <= rowIndex + j) rows.Add(new bool[maxColumns]);
                         rows[rowIndex + j][col + i] = true;
@@ -114,10 +113,14 @@ namespace HTMLQuestPDF.Components.Tags
             };
         }
 
-        private HtmlNode? GetTr(HtmlNode node)
+        private static HtmlNode? GetTr(HtmlNode node)
         {
-            if (node.IsTable() || node == null) return null;
-            return node.IsTr() ? node : GetTr(node.ParentNode);
+            while (true)
+            {
+                if (node.IsTable() || node == null) return null;
+                if (node.IsTr()) return node;
+                node = node.ParentNode;
+            }
         }
     }
 }

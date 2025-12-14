@@ -2,35 +2,35 @@
 using HTMLToQPDF.Utils;
 using QuestPDF.Infrastructure;
 
-namespace HTMLQuestPDF
+namespace HTMLToQPDF
 {
-    public class HTMLDescriptor
+    public class HtmlDescriptor
     {
-        internal HTMLComponent PDFPage { get; } = new HTMLComponent();
+        internal HtmlComponent PdfPage { get; } = new();
 
         public void SetHtml(string html)
         {
-            PDFPage.HTML = html;
+            PdfPage.Html = html;
         }
 
         public void OverloadImgReceivingFunc(GetImgBySrc getImg)
         {
-            PDFPage.GetImgBySrc = getImg;
+            PdfPage.GetImgBySrc = getImg;
         }
 
         public void SetTextStyleForHtmlElement(string tagName, TextStyle style)
         {
-            PDFPage.TextStyles[tagName.ToLower()] = style;
+            PdfPage.TextStyles[tagName.ToLower()] = style;
         }
 
         public void SetContainerStyleForHtmlElement(string tagName, Func<IContainer, IContainer> style)
         {
-            PDFPage.ContainerStyles[tagName.ToLower()] = style;
+            PdfPage.ContainerStyles[tagName.ToLower()] = style;
         }
 
         public void SetListVerticalPadding(float value, Unit unit = Unit.Point)
         {
-            PDFPage.ListVerticalPadding = UnitUtils.ToPoints(value, unit);
+            PdfPage.ListVerticalPadding = UnitUtils.ToPoints(value, unit);
         }
     }
 }

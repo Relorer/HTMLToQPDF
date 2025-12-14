@@ -1,7 +1,5 @@
 ﻿using HtmlAgilityPack;
-using HTMLQuestPDF;
-using HTMLQuestPDF.Extensions;
-using HTMLQuestPDF.Utils;
+using HTMLToQPDF.Extensions;
 using HTMLToQPDF.Utils;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
@@ -12,11 +10,11 @@ namespace HTMLToQPDF.Components
 
     internal delegate void TextSpanAction(TextSpanDescriptor textSpan);
 
-    internal class HTMLComponent : IComponent
+    internal class HtmlComponent : IComponent
     {
         public GetImgBySrc GetImgBySrc { get; set; } = ImgUtils.GetImgBySrc;
 
-        public Dictionary<string, TextStyle> TextStyles { get; } = new Dictionary<string, TextStyle>()
+        public Dictionary<string, TextStyle> TextStyles { get; } = new()
         {
             { "h1", TextStyle.Default.FontSize(32).Bold() },
             { "h2", TextStyle.Default.FontSize(28).Bold() },
@@ -39,26 +37,24 @@ namespace HTMLToQPDF.Components
 
         };
 
-        public Dictionary<string, Func<IContainer, IContainer>> ContainerStyles { get; } = new Dictionary<string, Func<IContainer, IContainer>>()
+        public Dictionary<string, Func<IContainer, IContainer>> ContainerStyles { get; } = new()
         {
-            { "p", c => c.PaddingVertical(6) },
-            { "ul", c => c.PaddingLeft(30) },
-            { "ol", c => c.PaddingLeft(30) }
+            { "p", c => c.PaddingVertical(6) }
         };
 
-        public float ListVerticalPadding { get; set; } = 12;
+        public float ListVerticalPadding { get; set; }
 
-        public string HTML { get; set; } = "";
+        public string Html { get; set; } = "";
 
         public void Compose(IContainer container)
         {
             var doc = new HtmlDocument();
-            doc.LoadHtml(HTMLUtils.PrepareHTML(HTML));
+            doc.LoadHtml(HtmlUtils.PrepareHtml(Html));
             var node = doc.DocumentNode;
 
             CreateSeparateBranchesForTextNodes(node);
 
-            container.Component(node.GetComponent(new HTMLComponentsArgs(TextStyles, ContainerStyles, ListVerticalPadding, GetImgBySrc)));
+            container.Component(node.GetComponent(new HtmlComponentsArgs(TextStyles, ContainerStyles, ListVerticalPadding, GetImgBySrc)));
         }
 
         /// <summary>
@@ -71,11 +67,11 @@ namespace HTMLToQPDF.Components
         /// This is necessary to avoid extra line breaks
         /// </summary>
         /// <param name="node"></param>
-        private void CreateSeparateBranchesForTextNodes(HtmlNode node)
+        private static void CreateSeparateBranchesForTextNodes(HtmlNode node)
         {
             if (node.IsLineNode() && node.HasBlockElement())
             {
-                var slices = node.GetSlices(new List<HtmlNode>() { node });
+                var slices = node.GetSlices([node]);
 
                 var parent = node.ParentNode;
                 var children = node.ParentNode.ChildNodes.ToList();
@@ -99,10 +95,7 @@ namespace HTMLToQPDF.Components
                         }
                     }
 
-                    if (newNode != null)
-                    {
-                        newNode.InnerHtml = newNode.InnerText.Trim();
-                    }
+                    newNode?.InnerHtml = newNode.InnerText.Trim();
                 }
 
                 children.Remove(node);

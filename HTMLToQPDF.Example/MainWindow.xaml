@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:local="clr-namespace:HTMLToQPDF.Example"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:HTMLToQPDF.Example.ViewModels"
     Title="HTMLToQPDF"
@@ -29,7 +28,7 @@
                     IsChecked="{Binding CustomStyles}" />
                 <Button
                     Margin="5"
-                    Command="{Binding CreatePDFCommand}"
+                    Command="{Binding CreatePdfCommand}"
                     Content="Create PDF"
                     Style="{StaticResource ButtonPrimary}" />
             </StackPanel>
@@ -54,7 +53,7 @@
             VerticalContentAlignment="Top"
             hc:InfoElement.Placeholder="&lt;body&gt; Hello world! &lt;/body&gt;"
             AcceptsReturn="True"
-            Text="{Binding HTML, UpdateSourceTrigger=PropertyChanged}"
+            Text="{Binding Html, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
     </DockPanel>
 </Window>

@@ -1,18 +1,13 @@
-﻿using System.Net;
-
-namespace HTMLToQPDF.Utils
+﻿namespace HTMLToQPDF.Utils
 {
     internal static class ImgUtils
     {
 
-        private static HttpClient _SingletonClient;
+        private static readonly HttpClient SingletonClient;
 
-        static ImgUtils() {
-
-            if (_SingletonClient == null)
-            {
-                _SingletonClient = new HttpClient();
-            }
+        static ImgUtils()
+        {
+            SingletonClient ??= new HttpClient();
         }
 
         /// <summary>
@@ -20,9 +15,9 @@ namespace HTMLToQPDF.Utils
         /// </summary>
         public static void Dispose() {
 
-            if (_SingletonClient != null)
+            if (SingletonClient != null)
             {
-                _SingletonClient.Dispose();
+                SingletonClient.Dispose();
             }
         }
         
@@ -32,7 +27,7 @@ namespace HTMLToQPDF.Utils
             {
                 if (src.Contains("base64"))
                 {
-                    var base64 = src.Substring(src.IndexOf("base64,") + "base64,".Length);
+                    var base64 = src[(src.IndexOf("base64,", StringComparison.Ordinal) + "base64,".Length)..];
                     return Convert.FromBase64String(base64);
                 }
 
@@ -51,10 +46,10 @@ namespace HTMLToQPDF.Utils
         private static Task<byte[]> Download(string src)
         {
 
-            if (_SingletonClient != null)
+            if (SingletonClient != null)
             {
-                Uri uri = new Uri(src);
-                return _SingletonClient.GetByteArrayAsync(uri);
+                var uri = new Uri(src);
+                return SingletonClient.GetByteArrayAsync(uri);
             }
             else
             {

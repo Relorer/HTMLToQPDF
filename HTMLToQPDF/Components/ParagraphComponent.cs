@@ -1,37 +1,44 @@
 ﻿using HtmlAgilityPack;
-using HTMLQuestPDF.Extensions;
-using HTMLToQPDF.Components;
+using HTMLToQPDF.Extensions;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
-namespace HTMLQuestPDF.Components
+namespace HTMLToQPDF.Components
 {
     internal class ParagraphComponent : IComponent
     {
-        private readonly List<HtmlNode> lineNodes;
-        private readonly Dictionary<string, TextStyle> textStyles;
+        private readonly List<HtmlNode> _lineNodes;
+        private readonly Dictionary<string, TextStyle> _textStyles;
 
-        public ParagraphComponent(List<HtmlNode> lineNodes, HTMLComponentsArgs args)
+        public ParagraphComponent(List<HtmlNode> lineNodes, HtmlComponentsArgs args)
         {
-            this.lineNodes = lineNodes;
-            this.textStyles = args.TextStyles;
+            _lineNodes = lineNodes;
+            _textStyles = args.TextStyles;
         }
 
-        private HtmlNode? GetParrentBlock(HtmlNode node)
+        private static HtmlNode? GetParrentBlock(HtmlNode node)
         {
-            if (node == null) return null;
-            return node.IsBlockNode() ? node : GetParrentBlock(node.ParentNode);
+            while (true)
+            {
+                if (node == null) return null;
+                if (node.IsBlockNode()) return node;
+                node = node.ParentNode;
+            }
         }
 
-        private HtmlNode? GetListItemNode(HtmlNode node)
+        private static HtmlNode? GetListItemNode(HtmlNode node)
         {
-            if (node == null || node.IsList()) return null;
-            return node.IsListItem() ? node : GetListItemNode(node.ParentNode);
+            while (true)
+            {
+                if (node == null || node.IsList()) return null;
+                if (node.IsListItem()) return node;
+                node = node.ParentNode;
+            }
         }
 
         public void Compose(IContainer container)
         {
-            var listItemNode = GetListItemNode(lineNodes.First()) ?? GetParrentBlock(lineNodes.First());
+            var listItemNode = GetListItemNode(_lineNodes.First()) ?? GetParrentBlock(_lineNodes.First());
             if (listItemNode == null) return;
 
             var numberInList = listItemNode.GetNumberInList();
@@ -40,26 +47,31 @@ namespace HTMLQuestPDF.Components
             {
                 container.Row(row =>
                 {
-                    var listPrefix = numberInList == -1 ? "" : numberInList == 0 ? "•  " : $"{numberInList}. ";
-                    row.AutoItem().MinWidth(26).AlignCenter().Text(listPrefix);
+                    var listPrefix = numberInList switch
+                    {
+                        -1 => "",
+                        0 => "•  ",
+                        _ => $"{numberInList}. "
+                    };
+                    row.AutoItem().MinWidth(13).AlignCenter().Text(listPrefix);
                     container = row.RelativeItem();
                 });
             }
 
-            var first = lineNodes.First();
-            var last = lineNodes.First();
+            var first = _lineNodes.First();
+            var last = _lineNodes.First();
 
             first.InnerHtml = first.InnerHtml.TrimStart();
             last.InnerHtml = last.InnerHtml.TrimEnd();
 
-            container.Text(GetAction(lineNodes));
+            container.Text(GetAction());
         }
 
-        private Action<TextDescriptor> GetAction(List<HtmlNode> nodes)
+        private Action<TextDescriptor> GetAction()
         {
             return text =>
             {
-                lineNodes.ForEach(node => GetAction(node).Invoke(text));
+                _lineNodes.ForEach(node => GetAction(node).Invoke(text));
             };
         }
 
@@ -94,22 +106,20 @@ namespace HTMLQuestPDF.Components
             {
                 var action = GetTextStyles(node);
                 action(spanAction);
-                if (node.ParentNode != null)
-                {
-                    var parrentAction = GetTextSpanAction(node.ParentNode);
-                    parrentAction(spanAction);
-                }
+                if (node.ParentNode == null) return;
+                var parrentAction = GetTextSpanAction(node.ParentNode);
+                parrentAction(spanAction);
             };
         }
 
-        public TextSpanAction GetTextStyles(HtmlNode element)
+        private TextSpanAction GetTextStyles(HtmlNode element)
         {
-            return (span) => span.Style(GetTextStyle(element));
+            return span => span.Style(GetTextStyle(element));
         }
 
-        public TextStyle GetTextStyle(HtmlNode element)
+        private TextStyle GetTextStyle(HtmlNode element)
         {
-            return textStyles.TryGetValue(element.Name.ToLower(), out TextStyle? style) ? style : TextStyle.Default;
+            return _textStyles.TryGetValue(element.Name.ToLower(), out var style) ? style : TextStyle.Default;
         }
     }
 }

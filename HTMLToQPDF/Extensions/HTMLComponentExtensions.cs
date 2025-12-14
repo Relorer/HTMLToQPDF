@@ -1,15 +1,15 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
-namespace HTMLQuestPDF.Extensions
+namespace HTMLToQPDF.Extensions
 {
-    public static class HTMLComponentExtensions
+    public static class HtmlComponentExtensions
     {
-        public static void HTML(this IContainer container, Action<HTMLDescriptor> handler)
+        public static void Html(this IContainer container, Action<HtmlDescriptor> handler)
         {
-            var htmlPageDescriptor = new HTMLDescriptor();
+            var htmlPageDescriptor = new HtmlDescriptor();
             handler(htmlPageDescriptor);
-            container.Component(htmlPageDescriptor.PDFPage);
+            container.Component(htmlPageDescriptor.PdfPage);
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using HTMLQuestPDF.Extensions;
+﻿using HTMLToQPDF.Extensions;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace HTMLToQPDF.Example.Utilities
 {
-    internal static class PDFCreator
+    internal static class PdfCreator
     {
         public static void Create(string html, string path, bool customStyles)
         {
@@ -19,7 +19,9 @@ namespace HTMLToQPDF.Example.Utilities
                     page.MarginHorizontal(0.5f, Unit.Centimetre);
                     page.MarginVertical(1f, Unit.Centimetre);
 
+#pragma warning disable CS0618 // Type or member is obsolete
                     page.DefaultTextStyle(TextStyle.Default.FontFamily("Arial").FontSize(8).Fallback(y => y.FontFamily("Segoe UI Emoji")));
+#pragma warning restore CS0618
 
                   /* page.DefaultTextStyle(TextStyle.Default
                     //    .Fallback(y => y.FontFamily("MS Reference Sans Serif")
@@ -30,7 +32,7 @@ namespace HTMLToQPDF.Example.Utilities
 
                     page.Content().Column(col =>
                     {
-                        col.Item().HTML(handler =>
+                        col.Item().Html(handler =>
                          {
                              if (customStyles)
                              {

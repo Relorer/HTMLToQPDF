@@ -1,21 +1,20 @@
 ﻿using HtmlAgilityPack;
-using HTMLQuestPDF.Extensions;
-using HTMLToQPDF.Components;
+using HTMLToQPDF.Extensions;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
-namespace HTMLQuestPDF.Components.Tags
+namespace HTMLToQPDF.Components.Tags
 {
-    internal class AComponent : BaseHTMLComponent
+    internal class AComponent : BaseHtmlComponent
     {
-        public AComponent(HtmlNode node, HTMLComponentsArgs args) : base(node, args)
+        public AComponent(HtmlNode node, HtmlComponentsArgs args) : base(node, args)
         {
         }
 
         protected override IContainer ApplyStyles(IContainer container)
         {
             container = base.ApplyStyles(container);
-            return node.TryGetLink(out string link) ? container.Hyperlink(link) : container;
+            return Node.TryGetLink(out var link) ? container.Hyperlink(link) : container;
         }
     }
 }

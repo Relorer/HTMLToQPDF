@@ -1,13 +1,12 @@
 ﻿using HtmlAgilityPack;
-using HTMLToQPDF.Components;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
-namespace HTMLQuestPDF.Components.Tags
+namespace HTMLToQPDF.Components.Tags
 {
-    internal class BrComponent : BaseHTMLComponent
+    internal class BrComponent : BaseHtmlComponent
     {
-        public BrComponent(HtmlNode node, HTMLComponentsArgs args) : base(node, args)
+        public BrComponent(HtmlNode node, HtmlComponentsArgs args) : base(node, args)
         {
         }
 
